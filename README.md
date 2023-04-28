@@ -38,7 +38,7 @@ python3 demo_txt2img_db.py  --hf-token="your huggingface token" -v
 
 对比了用tensorrt与不用的效果，基本上没有差异(左图为tensorrt优化后的)，效率提升大约30-40%左右（baseline采用fp16），在rtx8000上处理一张512的图片花费时间约1200ms
 
-<img src="./images/trt.png" alt="img" width="512" style="zoom:50%;" /><img src="./images/origin.png" alt="img" width="512" style="zoom:50%;" />
+<img src="./images/trt.png" alt="img" width="375" style="zoom:50%;" /><img src="./images/origin.png" alt="img" width="375" style="zoom:50%;" />
 
 ## 不足
 
