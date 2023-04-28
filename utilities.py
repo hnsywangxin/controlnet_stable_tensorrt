@@ -1115,7 +1115,6 @@ def save_image(images, image_path_dir, image_name_prefix):
     images = ((images + 1) * 255 / 2).clamp(0, 255).detach().permute(0, 2, 3, 1).round().type(torch.uint8).cpu().numpy()
     for i in range(images.shape[0]):
         image_path  = os.path.join(image_path_dir, image_name_prefix+str(i+1)+'-'+str(random.randint(1000,9999))+'.png')
-        image_path = "/data/test_data/aigc/text2img/person.png"
         print(f"Saving image {i+1} / {images.shape[0]} to: {image_path}")
         Image.fromarray(images[i]).save(image_path)
 
@@ -1166,8 +1165,6 @@ def add_arguments(parser):
     parser.add_argument('--width', type=int, default=512, help="Height of image to generate (must be multiple of 8)")
     parser.add_argument('--denoising-steps', type=int, default=20, help="Number of denoising steps")
 
-    # ONNX export
-    # 如果还是不行，考虑是不是opset的支持度不够
     parser.add_argument('--onnx-opset', type=int, default=17, choices=range(7,18), help="Select ONNX opset version to target for exported models")
     parser.add_argument('--onnx-dir', default='onnx', help="Output directory for ONNX export")
     parser.add_argument('--onnx-refit-dir', help="ONNX models to load the weights from")

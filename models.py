@@ -193,6 +193,7 @@ class BaseModel():
         max_latent_width = latent_width if static_shape else self.max_latent_shape
         return (min_batch, max_batch, min_image_height, max_image_height, min_image_width, max_image_width, min_latent_height, max_latent_height, min_latent_width, max_latent_width)
 
+
 class CLIP(BaseModel):
     def __init__(self,
         hf_token,
@@ -324,8 +325,6 @@ class UNet(BaseModel):
                                                         subfolder="unet", torch_dtype=torch.float16).to('cuda')
         controlnet = ControlNetModel.from_pretrained("lllyasviel/sd-controlnet-canny", torch_dtype=torch.float16).to(
             'cuda')
-        # controlnet = ControlNetModel.from_pretrained("lllyasviel/sd-controlnet-canny", torch_dtype=torch.float16).to('cuda')
-        # controlnet.eval()
         pipe = StableDiffusionControlNetPipeline.from_pretrained(
             "runwayml/stable-diffusion-v1-5", unet=unet_tmp, controlnet=controlnet, torch_dtype=torch.float16).to(
             'cuda')

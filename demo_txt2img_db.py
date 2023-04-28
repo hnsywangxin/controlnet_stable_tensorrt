@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# command python3 demo_txt2img_db.py --hf-token=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 -v
 import cv2
 import numpy as np
 from diffusers.utils import load_image
@@ -27,11 +26,13 @@ from txt2img_pipeline import Txt2ImgPipeline
 import random
 import torch
 
+
 def parseArgs():
     parser = argparse.ArgumentParser(description="Options for Stable Diffusion Txt2Img Demo")
     parser = add_arguments(parser)
     parser.add_argument('--scheduler', type=str, default="EulerA", choices=["PNDM", "LMSD", "DPM", "DDIM", "EulerA"], help="Scheduler for diffusion process")
     return parser.parse_args()
+
 
 def setup_seed(seed):
     torch.manual_seed(seed)
@@ -74,7 +75,6 @@ if __name__ == "__main__":
     if batch_size > max_batch_size:
         raise ValueError(f"Batch size {len(prompt)} is larger than allowed {max_batch_size}. If dynamic shape is used, then maximum batch size is 4")
     image = load_image('https://paddlenlp.bj.bcebos.com/models/community/junnyu/develop/control_bird_canny_demo.png')
-    #image = load_image('https://cdn-lfs.huggingface.co/repos/03/0a/030ada8d2e813be0895828822222c96f078a306f15cde39c42045345f7885c1f/dc0d345b20453a5f835c78ac724f511e415f3746b5d25b08e360bf940c67222c?response-content-disposition=attachment%3B+filename*%3DUTF-8%27%27boy.png%3B+filename%3D%22boy.png%22%3B&response-content-type=image%2Fpng&Expires=1682683713&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZG4tbGZzLmh1Z2dpbmdmYWNlLmNvL3JlcG9zLzAzLzBhLzAzMGFkYThkMmU4MTNiZTA4OTU4Mjg4MjIyMjJjOTZmMDc4YTMwNmYxNWNkZTM5YzQyMDQ1MzQ1Zjc4ODVjMWYvZGMwZDM0NWIyMDQ1M2E1ZjgzNWM3OGFjNzI0ZjUxMWU0MTVmMzc0NmI1ZDI1YjA4ZTM2MGJmOTQwYzY3MjIyYz9yZXNwb25zZS1jb250ZW50LWRpc3Bvc2l0aW9uPSomcmVzcG9uc2UtY29udGVudC10eXBlPSoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE2ODI2ODM3MTN9fX1dfQ__&Signature=F7t-z-DlKfP4K2rNQgNXXRxdx9gQF3xrplyS503x84xzE27WZRzRuWbLDWOjenDSUbCATWx1fe5swoH3UWzIqLAj8gNwa8xbWrFfk1V83UGvIegmgFHmROO1wwvzJ0jTqgMQqKNrJuY-59XiQQ5uOW2dIBq3FVxK92IH13tRpp88GOpMVlcZHVA3IbpZqOLcQ2XCeN6%7EWuFinGdSmS-wBjxVz0-F212YyEc9LsGCDVzTjg939fWqWDagp%7EBke84A5un5vDnH3%7Evea707-efRMMBhPHw2IoBQu8A%7ET%7EpXpMJL7cPkJ6qv25lK7RPWjr79andmxABt82zJ%7E89dNmH%7E0A__&Key-Pair-Id=KVTP0A1DKRTAX')
     canny_image = np.array(image)
 
     low_threshold = 100
@@ -107,8 +107,8 @@ if __name__ == "__main__":
     demo.loadResources(image_height, image_width, batch_size, args.seed)
 
     print("[I] Warming up ..")
-    # for _ in range(args.num_warmup_runs):
-    #     images = demo.infer(canny_image, prompt, negative_prompt, image_height, image_width, warmup=True, verbose=False)
+    for _ in range(args.num_warmup_runs):
+        images = demo.infer(canny_image, prompt, negative_prompt, image_height, image_width, warmup=True, verbose=False)
 
     print("[I] Running StableDiffusion pipeline")
     if args.nvtx_profile:
